@@ -13,6 +13,15 @@ const express = require('express');
 const app = express();
 app.use(express.json());
 
+app.post('/api/customer/:customer_id/reservation', async (req, res, next) => {
+  try {
+    await createReservations({date: req.body.date, party_count: req.body.party_count, customer_id: req.params.customer_id, restaurant_id: req.body.restaurant_id})
+    res.sendStatus(201)
+  } catch (ex) {
+    next(ex)
+  }
+})
+
 app.get('/api/customer', async(req, res, next)=> {
     try {
       res.send(await fetchCustomers());
